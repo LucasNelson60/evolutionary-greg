@@ -7,7 +7,7 @@ def main():
     
     with open(f"./{gene}.xlsx", "w") as output_file:
         
-        output_file.write("Name of Sequence,Sequence,NT Polymorphism Values,G4CR Start Index,G4CR End Index,G4CR Length in NTs,G-content Percentage,N-total,N-tandem,Tm-max,Tm-median,Tm-min\n")
+        output_file.write("Name of Sequence,G4CR Sequence,NT Polymorphism Values,G4CR Start Index,G4CR End Index,G4CR Length in NTs,G-content Percentage,N-total,N-tandem,Tm-max,Tm-median,Tm-min,Full Promoter Sequence\n")
         
         # NOTE:
         # Keys of 'alignment' are the sequence names, will want to loop through 'names'
@@ -32,10 +32,23 @@ def main():
         for name in names:
             # Outer layer: run GReg on each sequence (human and ancestrals) successively
             promoter_list_seq = alignment[name][(tss-1999):(tss+2000)]
-            promoter_seq = "".join(promoter_list_seq)
+            
+            # Removing gaps in alignment
+            promoter_seq = [] # codons go here
+            index_seq = [] # indices go here
+            for index, codon in enumerate(promoter_list_seq):
+                if codon == "A" or codon == "C" or codon == "G" or codon == "T":
+                    promoter_seq.append(codon)
+                    index_seq.append(index)
+            
+            promoter_seq = "".join(promoter_seq)
+            
             
             # Inner layer: for a given sequence, analyze every G4CR in the promoter region of the desired gene using GReg.
-            this_output = greg_main(promoter_seq, max_loop, max_bulge, min_temp, name)
+            this_output = greg_main(promoter_seq, index_seq, max_loop, max_bulge, min_temp, name)
             output_file.write(this_output)
+            
+        output_file.write("TSS index,Chromosome Number,Gene Name/Number\n")
+        output_file.write(f"{tss},{chrom},{gene}\n")
 
 main()
