@@ -21,7 +21,7 @@ def main():
         min_temp = 50
         
         tss = int(input("please provide the value for the index of the tss of the desired gene:\n"))
-        chrom = int(input ("please provide the number of the chromosome on which this gene is located:\n"))
+        chrom = input("please provide the number of the chromosome on which this gene is located:\n")
         alignment = pd.read_pickle(f'/home/mcb/users/dlim63/conservation/data/seqDictPad_chr{chrom}.pkl')
 
         names = ['hg38', '_HP', '_HPG', '_HPGP', '_HPGPN', '_HPGPNRMPC', '_HPGPNRMPCCS', '_HPGPNRMPCCSO', '_HPGPNRMPCCSOT', 
@@ -31,21 +31,45 @@ def main():
 
         for name in names:
             # Outer layer: run GReg on each sequence (human and ancestrals) successively
-            promoter_list_seq = alignment[name][(tss-1999):(tss+2000)]
+            sequence = alignment[name]
             
-            # Removing gaps in alignment
-            promoter_seq = [] # codons go here
-            index_seq = [] # indices go here
-            for index, codon in enumerate(promoter_list_seq):
-                if codon == "A" or codon == "C" or codon == "G" or codon == "T":
-                    promoter_seq.append(codon)
-                    index_seq.append(index)
+            forward_index = tss
+            backward_index = tss-1
+            forward_counter = 0
+            backward_counter = 0
+            forward = []
+            backward = []
             
-            promoter_seq = "".join(promoter_seq)
+            # Standardize every sequence to have length of exactly 4000 nucleotides
+            while True:
+                
+                forward_nt = sequence[forward_index]
+                backward_nt = sequence[backward_index]
+                
+                if forward_counter > 2000 and backward_counter > 2000: # break case: correct number of nucleotides
+                    break
+                
+                if backward_counter <= 2000 and (backward_nt == "A" or backward_nt == "C" or backward_nt == "G" or backward_nt == "T"): # increment the backward index
+                    backward.append(backward_nt)
+                    backward_index -= 1
+                    backward_counter += 1
+                elif backward_counter <= 2000:
+                    backward_index -= 1
+                    
+                if forward_counter <= 2000 and (forward_nt == "A" or forward_nt == "C" or forward_nt == "G" or forward_nt == "T"): # increment the forward index
+                    forward.append(forward_nt)
+                    forward_index -= 1
+                    forward_counter += 1
+                elif forward_counter <= 2000:
+                    forward_index += 1
+            
+            backward.reverse()
+            promoter_list_seq = backward + forward
+            promoter_seq = "".join(promoter_list_seq)
             
             
             # Inner layer: for a given sequence, analyze every G4CR in the promoter region of the desired gene using GReg.
-            this_output = greg_main(promoter_seq, index_seq, max_loop, max_bulge, min_temp, name)
+            this_output = greg_main(promoter_seq, max_loop, max_bulge, min_temp, name)
             output_file.write(this_output)
             
         output_file.write("TSS index,Chromosome Number,Gene Name/Number\n")
