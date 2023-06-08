@@ -31,10 +31,10 @@ def main():
 
         for name in names:
             # Outer layer: run GReg on each sequence (human and ancestrals) successively
-            sequence = alignment[name]
+            sequence = alignment[name][(tss-10000):(tss+10000)]
             
-            forward_index = tss
-            backward_index = tss-1
+            forward_index = 10000
+            backward_index = 9999
             forward_counter = 0
             backward_counter = 0
             forward = []
@@ -46,21 +46,21 @@ def main():
                 forward_nt = sequence[forward_index]
                 backward_nt = sequence[backward_index]
                 
-                if forward_counter > 2000 and backward_counter > 2000: # break case: correct number of nucleotides
+                if forward_counter >= 2000 and backward_counter >= 2000: # break case: correct number of nucleotides
                     break
                 
-                if backward_counter <= 2000 and (backward_nt == "A" or backward_nt == "C" or backward_nt == "G" or backward_nt == "T"): # increment the backward index
+                if backward_counter < 2000 and (backward_nt == "A" or backward_nt == "C" or backward_nt == "G" or backward_nt == "T"): # increment the backward index
                     backward.append(backward_nt)
                     backward_index -= 1
                     backward_counter += 1
-                elif backward_counter <= 2000:
+                elif backward_counter < 2000:
                     backward_index -= 1
                     
-                if forward_counter <= 2000 and (forward_nt == "A" or forward_nt == "C" or forward_nt == "G" or forward_nt == "T"): # increment the forward index
+                if forward_counter < 2000 and (forward_nt == "A" or forward_nt == "C" or forward_nt == "G" or forward_nt == "T"): # increment the forward index
                     forward.append(forward_nt)
-                    forward_index -= 1
+                    forward_index += 1
                     forward_counter += 1
-                elif forward_counter <= 2000:
+                elif forward_counter < 2000:
                     forward_index += 1
             
             backward.reverse()
