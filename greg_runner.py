@@ -31,10 +31,10 @@ def main():
 
         for name in names:
             # Outer layer: run GReg on each sequence (human and ancestrals) successively
-            sequence = alignment[name][(tss-10000):(tss+10000)]
+            sequence = alignment[name][(tss-50000):(tss+50000)]
             
-            forward_index = 10000
-            backward_index = 9999
+            forward_index = 50000
+            backward_index = 49999
             forward_counter = 0
             backward_counter = 0
             forward = []
