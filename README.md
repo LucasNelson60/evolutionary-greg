@@ -1,5 +1,5 @@
 ## ACKNOWLEDGEMENTS: 
-- GReg: Amos Zhang and Tony Mittermaier (https://github.com/Christopher-Hennecker/GReg)
+- GReg: Amos Zhang, Christopher Hennecker, and Tony Mittermaier (https://github.com/Christopher-Hennecker/GReg)
 - GReg Runner + modifications to GReg: Lucas Nelson
 - Aligned sequence data: Dongjoon Lim and Mathieu Blanchette
 
