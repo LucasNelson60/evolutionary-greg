@@ -1,1 +1,8 @@
 env/
+chr*
+human_tss_indices.bed
+evoGReg_backup.py
+greg_*.py
+branch_length.py
+__pycache__
+quick_script.py
