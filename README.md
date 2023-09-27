@@ -1,5 +1,5 @@
 ## INSTRUCTIONS:
-1. Run copy_pickle.py to transfer alignment pickles to personal directory while deleting unused sequence alignments
+1. Run copy_pickle.py to transfer alignment pickles to the working directory while deleting unused sequence alignments
 2. Run evoGReg.py on a chrom-by-chrom basis to get initial file outputs
 3. Run remove_redundant_files.py to remove files that are duplicates of existing files for a given gene and cause issues in the later simulation phase
 4. Run fix_match_rate.py to update the match rates on each file to be the correct one
