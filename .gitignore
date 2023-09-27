@@ -2,7 +2,8 @@ env/
 chr*
 human_tss_indices.bed
 evoGReg_backup.py
+evoGReg_fixer.py
 greg_*.py
 branch_length.py
 __pycache__
-quick_script.py
+*quick_script*

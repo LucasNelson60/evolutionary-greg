@@ -13,7 +13,7 @@ MIN_TEMP = 50
 
 def evoGReg():
 
-    input_filepath = sys.argv[1]
+    input_filepath = sys.argv[1] # Filepath to TSS file
     chrom_value = sys.argv[2]
 
     with open(input_filepath, "r") as tss_file:
