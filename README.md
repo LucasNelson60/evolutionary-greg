@@ -5,7 +5,7 @@
 
 Written as part of a joint research project between the McGill Computational Genomics Lab (under the supervision of Mathieu Blanchette) and Anthony Mittermaier's lab in the McGill Department of Chemistry.
 
-Instructions:
+## INSTRUCTIONS:
 1. Run copy_pickle.py to transfer alignment pickles to personal directory while deleting unused sequence alignments
 2. Run evoGReg.py on a chrom-by-chrom basis to get initial file outputs
 3. Run remove_redundant_files.py to remove files that are duplicates of existing files for a given gene and cause issues in the later simulation phase
